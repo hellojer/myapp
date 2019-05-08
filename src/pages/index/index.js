@@ -12,19 +12,19 @@ import './index.scss'
 @connect(({ counter }) => ({
   counter
 }), (dispatch) => ({
-  add () {
+  add() {
     dispatch(add())
   },
-  dec () {
+  dec() {
     dispatch(minus())
   },
-  asyncAdd () {
+  asyncAdd() {
     dispatch(asyncAdd())
   }
 }))
 class Index extends Component {
 
-    config = {
+  config = {
     navigationBarTitleText: '首页'
   }
 
@@ -32,15 +32,15 @@ class Index extends Component {
     products: []
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     console.log(this.props, nextProps)
   }
 
-  componentWillUnmount () { }
+  componentWillUnmount() {}
 
-  componentDidShow () { }
+  componentDidShow() {}
 
-  componentDidHide () { }
+  componentDidHide() {}
 
   async componentWillMount() {
     const response = await Taro.request({
@@ -52,23 +52,18 @@ class Index extends Component {
     })
   }
 
-  render () {
+  render() {
     const { products } = this.state
 
-    return (
-      <View className='index'>
-        <AtList>
-          {
-            products.map(product =>
-              <AtListItem
-                key={ product.id }
-                arrow='right'
-                title={ product.name }
-                note={ '￥' + product.price } />
-            )
-          }
-        </AtList>
-      </View>
+    return ( <View className= 'index' >
+      <AtList >
+      {
+        products.map(product =>
+          <AtListItem key ={product.id} arrow ='right'
+            title= {product.name} note ={'价格' + product.price}
+          />
+        )
+      } </AtList> </View >
     )
   }
 }
