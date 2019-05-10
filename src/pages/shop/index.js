@@ -1,58 +1,40 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { SearchBar } from '../../components/search-bar'
+import ProductList from '../../components/product-list'
+
 
 class ShopIndex extends Component {
   config = {
     navigationBarTitleText: 'W-Store'
   }
 
-  switchTab() {
-    Taro.switchTab({
-      url: './cart',
+  state = {
+    products: []
+  }
+
+  async componentWillMount() {
+    const response = await Taro.request({
+      url: `${API_WS}/products`
+    })
+
+    this.setState({
+      products: response.data
     })
   }
 
-  setTabBarBadge(type) {
-    switch (type) {
-      case 'badge':
-       Taro.setTabBarBadge({
-         index: 1,
-         text: '1',
-       })
-       break;
-       case 'dot':
-        Taro.showTabBarRedDot({
-          index: 1,
-        })
-        break;
-    }
-  }
-
-  removeTabBarBadge(type) {
-    switch (type) {
-      case 'badge':
-       Taro.removeTabBarBadge({
-         index: 1,
-       })
-       break;
-       case 'dot':
-        Taro.hideTabBarRedDot({
-          index: 1,
-        })
-        break;
-    }
-  }
-
   render() {
+    const { products } = this.state
+
     return(
       <View>
         <SearchBar />
-        <View className='page-demo'>
-        <Text className='mx-1' onClick={this.switchTab.bind(this)}>SwitchTab</Text>
-        <Text className='mx-1' onClick={this.setTabBarBadge.bind(this, 'badge')}>Add</Text>
-        <Text className='mx-1' onClick={this.removeTabBarBadge.bind(this, 'badge')}>Remove</Text>
+        <View className='ui placeholder'>
+          <View className='image rectangular'></View>
+          <View className='line'></View>
+          <View className='very short line'></View>
         </View>
+        <ProductList data={products} />
       </View>
     )
   }
